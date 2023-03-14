@@ -11,7 +11,7 @@ qlist(pqueue *head, void (*print_data)(void *)) {
 		print_data(p->data);
 		printf("\n");
 	}
-	
+
 }
 
 void
@@ -27,9 +27,9 @@ qinsert(pqueue **phead, void *data, int k) {
 	else
 	{	
 
-		while (prevElement->next != NULL && prevElement->k < k)
+		while (prevElement->next != NULL && prevElement->k > k)
 			prevElement = prevElement->next;
-		if (prevElement->k < k)
+		if (prevElement->k > k)
 		{
 			element->next = prevElement->next;
 			prevElement->next = element;
@@ -39,9 +39,12 @@ qinsert(pqueue **phead, void *data, int k) {
 		else
 		{
 			element->prev = prevElement->prev;
+			if(prevElement != *phead)
+				prevElement->prev->next = element;
 			prevElement->prev = element;
 			element->next = prevElement; 
-			*phead = element;
+			if (prevElement == *phead)
+				*phead = element;
 		}
 		
 	}
